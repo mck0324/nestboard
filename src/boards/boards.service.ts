@@ -29,6 +29,9 @@ export class BoardsService {
     //     this.boards.push(board);
     //     return board;
     // }
+    async deleteBoard(id: number): Promise<void> {
+        return this.boardRepository.deleteBoard(id);
+    }
     async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
         return this.boardRepository.createBoard(createBoardDto);
     }
