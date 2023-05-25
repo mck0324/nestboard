@@ -8,6 +8,15 @@ import { CustomRepository } from "src/typeorm-ex.decorator";
 
 @CustomRepository(Board)
 export class BoardRepository extends Repository<Board> {
+
+   async getBoardById(id: number): Promise<Board> {
+      const found = await this.findOne({where : { id }});
+      if(!found) {
+         throw new NotFoundException(`${id}의 게시물을 찾을 수 없습니다.`);
+      }
+      return found;
+   }
+
    async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
       const { title, description } = createBoardDto;
 
@@ -28,6 +37,13 @@ export class BoardRepository extends Repository<Board> {
       }
       console.log('result',result);
       
+   }
+   async updateBoardStatus(id:number, status:BoardStatus) : Promise<Board> {
+      const board = await this.getBoardById(id);
+      board.status = status;
+      await this.save(board);
+
+      return board;
    }
 }
 

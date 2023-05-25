@@ -12,6 +12,19 @@ export class BoardsService {
     constructor(
         private boardRepository: BoardRepository 
     ){}
+    async deleteBoard(id: number): Promise<void> {
+        return this.boardRepository.deleteBoard(id);
+    }
+    async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+        return this.boardRepository.createBoard(createBoardDto);
+    }
+
+    async getBoardById(id: number): Promise <Board> {
+        return this.boardRepository.getBoardById(id);
+    }
+    async updateBoardStatus(id:number, status:BoardStatus) : Promise<Board> {
+        return this.boardRepository.updateBoardStatus(id,status);
+    }
 
     // getAllBoards(): Board[] {
     //     return this.boards;
@@ -29,20 +42,6 @@ export class BoardsService {
     //     this.boards.push(board);
     //     return board;
     // }
-    async deleteBoard(id: number): Promise<void> {
-        return this.boardRepository.deleteBoard(id);
-    }
-    async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-        return this.boardRepository.createBoard(createBoardDto);
-    }
-
-    async getBoardById(id: number): Promise <Board> {
-        const found = await this.boardRepository.findOne({ where : {id} });
-        if(!found) {
-            throw new NotFoundException(`${id}의 게시물을 찾을 수 없습니다.`);
-        }
-        return found;
-    }
     // getBoardById(id: string): Board {
     //     const found = this.boards.find((board) => board.id === id);
     //     if(!found) {
