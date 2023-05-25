@@ -5,13 +5,12 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BoardRepository } from './board.repository';
 import { Board } from './board.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BoardsService {
     constructor(
-        @InjectRepository(BoardRepository)
-        private boardRepository: BoardRepository,
-        
+        private boardRepository: BoardRepository 
     ){}
 
     // getAllBoards(): Board[] {
@@ -30,9 +29,12 @@ export class BoardsService {
     //     this.boards.push(board);
     //     return board;
     // }
+    async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+        return this.boardRepository.createBoard(createBoardDto);
+    }
 
     async getBoardById(id: number): Promise <Board> {
-        const found = await this.boardRepository.findOne(id);
+        const found = await this.boardRepository.findOne({ where : {id} });
         if(!found) {
             throw new NotFoundException(`${id}의 게시물을 찾을 수 없습니다.`);
         }
