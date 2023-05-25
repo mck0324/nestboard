@@ -25,6 +25,9 @@ export class BoardsService {
     async updateBoardStatus(id:number, status:BoardStatus) : Promise<Board> {
         return this.boardRepository.updateBoardStatus(id,status);
     }
+    async getAllBoards() : Promise<Board[]> {
+        return this.boardRepository.getAllBoards();
+    }
 
     // getAllBoards(): Board[] {
     //     return this.boards;

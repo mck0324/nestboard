@@ -22,10 +22,10 @@ export class BoardsController {
     // ): Board {
     //     return this.boardsService.createBoard(createBoardDto);
     // }
-    @Delete('/:id')
-    deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
-        return this.boardsService.deleteBoard(id);
-    }
+    @Get()
+    getAllTask() : Promise<Board[]> {
+        return this.boardsService.getAllBoards();
+    } 
     @Post()
     @UsePipes(ValidationPipe)
     createBoard(@Body() createBoardDto: CreateBoardDto) : Promise<Board> {
@@ -41,6 +41,10 @@ export class BoardsController {
         @Body('status', BoardStatusValidationPipe) status: BoardStatus,
     ) : Promise<Board> {
         return this.boardsService.updateBoardStatus(id, status);
+    }
+    @Delete('/:id')
+    deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
+        return this.boardsService.deleteBoard(id);
     }
 
     // @Get('/:id')

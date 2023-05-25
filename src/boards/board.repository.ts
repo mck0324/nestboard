@@ -9,6 +9,11 @@ import { CustomRepository } from "src/typeorm-ex.decorator";
 @CustomRepository(Board)
 export class BoardRepository extends Repository<Board> {
 
+   async getAllBoards(): Promise<Board[]> {
+      const allBoards = await this.find();
+      return allBoards;
+   }
+
    async getBoardById(id: number): Promise<Board> {
       const found = await this.findOne({where : { id }});
       if(!found) {
@@ -45,5 +50,6 @@ export class BoardRepository extends Repository<Board> {
 
       return board;
    }
+
 }
 
