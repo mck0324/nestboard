@@ -1,9 +1,8 @@
 import { Repository } from "typeorm";
 import { Board } from "./board.entity";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { NotFoundException } from "@nestjs/common";
 import { CreateBoardDto } from "./dto/create-board.dto";
 import { BoardStatus } from "./boards-status.enum";
-import { InjectRepository } from "@nestjs/typeorm";
 import { CustomRepository } from "src/typeorm-ex.decorator";
 
 @CustomRepository(Board)
