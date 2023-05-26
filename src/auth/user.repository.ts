@@ -4,16 +4,20 @@ import { CustomRepository } from "src/typeorm-ex.decorator";
 import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import { ConflictException, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
+import { JwtService } from "@nestjs/jwt";
 
 @CustomRepository(User)
 export class UserRepository extends Repository<User> {
+    
 
-    async login(authCredentialsDto: AuthCredentialsDto) : Promise<string> {
+    async login(authCredentialsDto: AuthCredentialsDto, jwtService: JwtService) : Promise<{accessToken: string}> {
         const { username,password } = authCredentialsDto;
         const user = await this.findOne({ where: { username } });
         
         if (user && (await bcrypt.compare(password, user.password))) {
-            return "로그인 성공";
+            const payload = { username };
+            const accessToken = jwtService.sign(payload);
+            return { accessToken };
         } else {
             throw new UnauthorizedException("로그인 실패");
         }
