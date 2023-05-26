@@ -2,11 +2,24 @@ import { Repository } from "typeorm";
 import { User } from "./user.entity";
 import { CustomRepository } from "src/typeorm-ex.decorator";
 import { AuthCredentialsDto } from "./dto/auth-credential.dto";
-import { ConflictException, InternalServerErrorException } from "@nestjs/common";
+import { ConflictException, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
 
 @CustomRepository(User)
 export class UserRepository extends Repository<User> {
+
+    async login(authCredentialsDto: AuthCredentialsDto) : Promise<string> {
+        const { username,password } = authCredentialsDto;
+        const user = await this.findOne({ where: { username } });
+        
+        if (user && (await bcrypt.compare(password, user.password))) {
+            return "로그인 성공";
+        } else {
+            throw new UnauthorizedException("로그인 실패");
+        }
+    }
+
+
     async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         const { username, password } = authCredentialsDto;
         const salt = await bcrypt.genSalt();
