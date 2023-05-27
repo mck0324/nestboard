@@ -5,6 +5,7 @@ import { TypeOrmExModule } from 'src/typeorm-ex.module';
 import { UserRepository } from './user.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -18,6 +19,9 @@ import { PassportModule } from '@nestjs/passport';
     TypeOrmExModule.forCustomRepository([UserRepository])
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  //JwtStrategy를 Auth.module에서 사용할 수 있도록 등록
+  providers: [AuthService, JwtStrategy],
+  //JwtStrategy, PassportModule를 다른 모듈에서 사용할 수 있도록 등록
+  exports: [JwtStrategy, PassportModule]
 })
 export class AuthModule {}
