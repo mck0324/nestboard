@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Board } from './board.entity';
 import { BoardRepository } from './board.repository';
 import { TypeOrmExModule } from 'src/typeorm-ex.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
-    TypeOrmExModule.forCustomRepository([BoardRepository])
+    TypeOrmExModule.forCustomRepository([BoardRepository]),AuthModule
   ],
   controllers: [BoardsController],
   providers: [BoardsService]
