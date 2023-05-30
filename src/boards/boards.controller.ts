@@ -29,7 +29,14 @@ export class BoardsController {
     @Get()
     getAllTask() : Promise<Board[]> {
         return this.boardsService.getAllBoards();
-    } 
+    }
+
+    @Get('/user')
+    getUserBoard(
+        @GetUser() user: User
+    ): Promise<Board[]> {
+        return this.boardsService.getUserBoards(user);
+    }
     @Post()
     @UsePipes(ValidationPipe)
     createBoard(@Body() createBoardDto: CreateBoardDto,

@@ -23,6 +23,9 @@ export class BoardsService {
     async getBoardById(id: number): Promise <Board> {
         return this.boardRepository.getBoardById(id);
     }
+    async getUserBoards(user: User): Promise<Board[]> {
+        return this.boardRepository.getUserBoards(user);
+    }
     async updateBoardStatus(id:number, status:BoardStatus) : Promise<Board> {
         return this.boardRepository.updateBoardStatus(id,status);
     }
