@@ -54,7 +54,7 @@ export class BoardRepository extends Repository<Board> {
    async deleteUserBoard(id: number, user: User): Promise<void> {
       const result = await this.delete({ id , user: { id: user.id }});
       if(result.affected === 0) {
-         throw new NotFoundException(`${user.username}는 ${id}번 게시판을 지울 권한이 없습니다.`);
+         throw new NotFoundException(`${user.username}는 ${id}번 게시글을 지울 권한이 없습니다.`);
       }
       console.log('result',result);
    }
